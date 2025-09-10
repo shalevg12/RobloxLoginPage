@@ -1,0 +1,202 @@
+/* =======================
+   GLOBAL / RESET & BACKGROUND
+   ======================= */
+
+:root{
+  --bg:#0f1115;
+  --card:#171a21;
+  --muted:#9aa3b2;
+  --text:#e6e6e6;
+  --line:#232634;
+  --brand:#3b82f6;
+  --overlay: rgba(0,0,0,.45);      /* עמעום מעל התמונה */
+}
+
+/* קופסאות יציבות ומניעת גלילה אופקית */
+*,*::before,*::after{ box-sizing:border-box }
+html{ height:100%; background: var(--bg); }
+body{
+  margin:0;
+  min-height:100svh;               /* עדיף על 100vh ב-iOS */
+  color:var(--text);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  overflow-x:hidden;
+  background:transparent;          /* את הרקע מציירים בשכבות למטה */
+}
+#root{ min-height:100%; }
+
+/* שכבת תמונת רקע – ללא background-attachment: fixed (בעייתי ב-iOS) */
+body::before{
+  content:"";
+  position:fixed; inset:0;
+  z-index:-2;
+  background-color:var(--bg);
+  background-image:url("/bg.jpg"); /* שים את הקובץ ב-public/bg.jpg */
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:cover;
+  transform:translateZ(0);          /* ייצוב ציור בניידים */
+}
+
+/* שכבת עמעום מעל התמונה שתמיד מכסה את כל המסך */
+body::after{
+  content:"";
+  position:fixed; inset:0;
+  z-index:-1;
+  background:var(--overlay);
+  pointer-events:none;
+}
+
+/* =======================
+   LAYOUT
+   ======================= */
+
+/* עמוד מלא מסך; דוחפים את הפוטר לתחתית */
+.page{
+  min-height:100svh;
+  display:flex;
+  flex-direction:column;
+}
+main{ flex:1; }
+
+.wrap{ max-width:1120px; margin:0 auto; padding:0 16px }
+.grid{
+  display:grid; grid-template-columns:1fr; gap:32px; padding:56px 0;
+}
+@media (min-width:900px){
+  .grid{ grid-template-columns:1fr 1fr; padding:72px 0; }
+}
+
+/* סרגל עליון */
+.topbar{
+  position:sticky; top:0; z-index:10;
+  background:rgba(15,17,21,.85);
+  -webkit-backdrop-filter:saturate(120%) blur(6px);
+  backdrop-filter:saturate(120%) blur(6px);
+  border-bottom:1px solid #22252d;
+}
+.topbar-inner{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:12px 16px; max-width:1120px; margin:0 auto;
+}
+.brand-and-nav{ display:flex; align-items:center; gap:24px }
+.brand{ display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.4px }
+.mark{ display:grid; place-items:center; width:28px; height:28px; border-radius:8px; background:rgba(255,255,255,.08) }
+.diamond{ width:12px; height:12px; background:#fff; transform:rotate(45deg); opacity:.85 }
+.diamond.big{ width:28px; height:28px }
+.brand-text{ color:#fff }
+.nav{ display:none; gap:24px; font-size:14px; color:#c9d0da }
+.nav a{ color:#c9d0da; text-decoration:none }
+.nav a:hover{ color:#fff }
+@media (min-width:900px){ .nav{ display:flex } }
+
+.actions{ display:flex; align-items:center; gap:8px }
+.icon-btn{ border:0; background:transparent; color:#c9d0da; padding:8px; border-radius:8px; cursor:pointer }
+.icon-btn:hover{ background:rgba(255,255,255,.07); color:#fff }
+
+/* =======================
+   BUTTONS
+   ======================= */
+.btn{ border:0; border-radius:12px; padding:10px 16px; font-weight:600; cursor:pointer; transition:.15s }
+.btn.full{ width:100% }
+.btn-primary{ background:var(--brand); color:#fff }
+.btn-primary:hover{ background:#2f6dd3 }
+.btn-ghost{ background:transparent; color:#fff; border:1px solid rgba(255,255,255,.12) }
+.btn-ghost:hover{ background:rgba(255,255,255,.06) }
+.btn-muted{ background:rgba(255,255,255,.06); color:#fff; border:1px solid rgba(255,255,255,.08); text-align:left; width:100% }
+.btn-muted:hover{ background:rgba(255,255,255,.1) }
+.linklike{ background:none; border:0; color:#fff; font-weight:600; cursor:pointer }
+.linklike:hover{ text-decoration:underline }
+
+/* =======================
+   CARD + FORM
+   ======================= */
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:24px;
+  box-shadow:0 12px 30px rgba(0,0,0,.25);
+}
+@media (min-width:900px){ .card{ padding:32px } }
+
+.login h1{ margin:0 0 18px; font-size:32px; letter-spacing:.3px }
+.login form{ display:grid; gap:14px }
+label{ font-size:14px; color:#cdd3dd }
+input{
+  width:100%; padding:14px; border-radius:12px;
+  border:1px solid rgba(255,255,255,.12);
+  background:#0c0f14; color:#fff; outline:none;
+}
+input::placeholder{ color:#7c8798 }
+input:focus{ border-color:#3b82f6; box-shadow:0 0 0 3px rgba(59,130,246,.25) }
+
+.center{ text-align:center }
+.strong{ font-weight:700; color:#fff; margin-top:18px }
+.stack{ display:grid; gap:12px; margin-top:12px }
+.muted{ color:#b6bfcc }
+.notice{ margin-top:12px; font-size:12px; color:#f3c969 }
+
+/* =======================
+   RIGHT PROMO
+   ======================= */
+.promo{ position:relative; overflow:hidden;
+  background:linear-gradient(135deg, rgba(37,99,235,.25), rgba(99,102,241,.18) 40%, rgba(217,70,239,.18));
+}
+.promo-title{ font-size:32px; font-weight:800; margin-bottom:16px }
+.promo-row{ display:flex; align-items:center; gap:14px; margin-bottom:18px }
+.app-mark{ display:grid; place-items:center; width:64px; height:64px; border-radius:18px; background:rgba(255,255,255,.18) }
+.app-name{ font-weight:700 }
+.app-sub{ font-size:14px; color:#e4e7ee }
+.promo-actions{ display:flex; gap:12px; flex-wrap:wrap }
+.promo-bg{ position:absolute; right:-56px; top:-56px; width:160px; height:160px; background:rgba(255,255,255,.12); transform:rotate(45deg); border-radius:24px; pointer-events:none }
+
+/* =======================
+   FOOTER (מחובר לתחתית + safe area)
+   ======================= */
+.footer{
+  margin-top:16px;
+  padding: 0 16px calc(24px + env(safe-area-inset-bottom));
+  background:transparent;           /* שלא ייצבע בלבן */
+}
+.links{ display:flex; flex-wrap:wrap; gap:14px; color:#c9d0da }
+.links a{ color:#c9d0da; text-decoration:none; cursor:pointer }
+.links a:hover{ color:#fff }
+.copyright{ margin-top:16px; font-size:12px; color:#99a3b1 }
+
+/* =======================
+   MODALS / OTP / QR
+   ======================= */
+.modal-backdrop{
+  position:fixed; inset:0; background:rgba(0,0,0,.5);
+  display:grid; place-items:center; z-index:50; padding:16px;
+}
+.modal-card{
+  width:min(560px, 100%); background:var(--card);
+  border:1px solid var(--line); border-radius:18px;
+  box-shadow:0 20px 50px rgba(0,0,0,.4); overflow:hidden;
+}
+.modal-head{ display:flex; justify-content:space-between; align-items:center; padding:16px 18px; border-bottom:1px solid var(--line) }
+.modal-head h2{ margin:0; font-size:20px }
+.modal-body{ padding:18px }
+.modal-foot{ padding:14px 18px; border-top:1px solid var(--line); display:flex; justify-content:flex-end }
+
+.otp-form{ display:flex; gap:10px; margin-top:12px }
+.otp-form input{
+  flex:1; padding:12px; border-radius:12px; background:#0c0f14; color:#fff;
+  border:1px solid rgba(255,255,255,.12);
+}
+.otp-msg{ margin-top:10px }
+
+.qr-box{ display:grid; gap:10px; justify-items:center; margin-top:12px }
+.qr-grid{
+  display:grid; grid-template-columns:repeat(20, 10px); grid-auto-rows:10px;
+  background:#11151b; padding:10px; border-radius:10px; border:1px solid #222835;
+}
+.qr-cell{ width:10px; height:10px; background:#0f141b; border-radius:1px }
+.qr-dot{ background:#e8eef9 }
+.qr-caption{ font-size:12px; color:#cbd3df }
+
+/* לוגו */
+.logo-wrap{ text-align:center; margin-bottom:20px }
+.logo{ max-width:180px; height:auto }
