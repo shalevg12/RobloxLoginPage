@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://8502c66fa030.ngrok-free.app/api/$1"
+    }
+  ]
+}
